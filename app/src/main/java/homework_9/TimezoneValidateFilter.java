@@ -30,7 +30,6 @@ public class TimezoneValidateFilter extends HttpFilter {
     private boolean isValidTimeZone(String st){
         String num = st
                 .replace("UTC+"," ")
-                .replace("UTC "," ")
                 .replace("UTC-"," ");
 
         StringBuilder sb = new StringBuilder();
@@ -47,6 +46,6 @@ public class TimezoneValidateFilter extends HttpFilter {
         if(request.getParameterMap().containsKey("timezone")){
             return request.getParameter("timezone");
         }
-        return "UTC 0";
+        return "UTC+0";
     }
 }

@@ -71,7 +71,7 @@ public class TimeServlet extends HttpServlet {
     }
     private String parsTimeParam(HttpServletRequest request){
         if(request.getParameterMap().containsKey("timezone")){
-            return request.getParameter("timezone").replace(' ','+');
+            return request.getParameter("timezone");
         }
         return "UTC";
     }
