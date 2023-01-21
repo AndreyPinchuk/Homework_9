@@ -2,7 +2,9 @@ package homework_9;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.FileTemplateResolver;
+import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
+import org.thymeleaf.web.IWebApplication;
+import org.thymeleaf.web.servlet.JavaxServletWebApplication;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,14 +21,15 @@ import java.util.Map;
 @WebServlet(value = "/time")
 public class TimeServlet extends HttpServlet {
     private TemplateEngine engine;
+    private IWebApplication application;
 
     @Override
     public void init() throws ServletException {
         engine = new TemplateEngine();
+        application = JavaxServletWebApplication.buildApplication(getServletContext());
 
-        FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix("C:\\IdeaProjects\\Homework_9\\templates\\");
-//        resolver.setPrefix("./templates/");
+        WebApplicationTemplateResolver resolver = new WebApplicationTemplateResolver(application);
+        resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());
@@ -63,7 +66,7 @@ public class TimeServlet extends HttpServlet {
                 )
         );
 
-        engine.process("test",simpleContext,resp.getWriter());
+        engine.process("time",simpleContext,resp.getWriter());
         resp.getWriter().close();
     }
     private String parsTimeParam(HttpServletRequest request){
